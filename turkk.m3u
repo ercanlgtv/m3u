@@ -42,9 +42,6 @@ https://tvnet-live.lg.mncdn.com/tvnet/tvnet/chunklist.m3u8
 #EXTINF:-1 tvg-name="AHABER" tvg-id="A.HABER.HD.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/7c/Ahaber_Logo.png" group-title="Haber",A HABER
 https://streams.uzunmuhalefet.com/stream/b4f7a5e9-fcae-4258-83eb-cc37b6a68696.m3u8
 
-#EXTINF:-1 tvg-name="Akit TV" tvg-id="AKİT.TV.HD.tr" tvg-logo="https://i.ibb.co/B4XX5Vx/akittv.png" group-title="Haber",AKİT TV
-http://live.yt-hls.workers.dev/UCbaLyHJp6S9Lsj6oT9aJsQw.m3u8
-
 #EXTINF:-1 tvg-name="ULUSAL KANAL" tvg-id="ULUSAL.KANAL.tr" tvg-logo="https://i.ibb.co/tXdf2YF/ulusal22.png" group-title="Haber",ULUSAL KANAL
 https://streams.uzunmuhalefet.com/stream/e8b425ad-571d-475d-a657-37bca8985836.m3u8
 
@@ -61,7 +58,7 @@ https://ciner.daioncdn.net/showtv/showtv.m3u8?ce=3&app=4bc856ef-4c68-4a94-bc87-3
 https://demiroren.daioncdn.net/kanald/kanald_1080p.m3u8?app=da2109ea-5dfe-4107-89ab-23593336ed61
 
 #EXTINF:-1 tvg-name="ATV" tvg-id="ATV.HD.tr" tvg-logo="https://i.ibb.co/n1SCYqN/atv.png" group-title="Genel",ATV
-https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/atv/atv_480p.m3u8
+https://turkuaz.tecostream.xyz/atv
 
 #EXTINF:-1 tvg-name="STAR TV" tvg-id="STAR.TV.HD.tr" tvg-logo="https://i.ibb.co/DYyDzGV/star22tv.png" group-title="Genel",STAR TV
 http://dygvideo.dygdigital.com/live/hls/startv4puhu?m3u8
