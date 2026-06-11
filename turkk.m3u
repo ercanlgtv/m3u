@@ -67,10 +67,7 @@ http://dygvideo.dygdigital.com/live/hls/startv4puhu?m3u8
 https://tytturk-live.ercdn.net/tytturk/tytturk.m3u8
 
 #EXTINF:-1 tvg-name="TRT 1" tvg-id="TRT1.HD.tr" tvg-logo="https://i.ibb.co/thr6mVk/trt-1.png" group-title="Genel",TRT 1
-https://tv-trt1.medya.trt.com.tr/master_1080.m3u8
-
-#EXTINF:-1 tvg-name="TRT 1 2K" tvg-id="TRT1.HD.tr" tvg-logo="https://i.ibb.co/thr6mVk/trt-1.png" group-title="Genel",TRT 1 (2K)
-https://tv-trt1.medya.trt.com.tr/master_1440.m3u8
+https://tv-trt1.medya.trt.com.tr/master.m3u8
 
 #EXTINF:-1 tvg-name="TRT 2" tvg-id="TRT.2.HD.tr" tvg-logo="https://i.ibb.co/0JcxnSL/trt-2.png" group-title="Genel",TRT 2
 https://tv-trt2.medya.trt.com.tr/master.m3u8
