@@ -22,7 +22,9 @@ https://halktv-live.daioncdn.net/halktv/halktv_1080p.m3u8
 https://live.artidijitalmedya.com/artidijital_mavikaradeniz/mavikaradeniz/chunks.m3u8
 
 #EXTINF:-1 tvg-name="CNN TURK" tvg-id="CNN.TÜRK.HD.tr" tvg-logo="https://i.ibb.co/bFsmkwJ/cnn-turk.png" group-title="Haber",CNN TURK
-http://eb4b8dcf.kablakaka.ru/iptv/PXXFGKYYT6PCZA/6926/index.m3u8
+#EXTVLCOPT:http-user-agent=googleusercontent
+#EXTVLCOPT:http-referrer=https://twitter.com/
+https://nord.ayakkabiparti.lol/cnn/index.m3u8?token=ys98Ee-3X_flLOMOYFiU3A&tms=1776693151
 
 #EXTINF:-1 tvg-name="TRT HABER" tvg-id="TRT.HABER.HD.tr" tvg-logo="https://i.ibb.co/Bt6frts/trthaber.png" group-title="Haber",TRT HABER
 https://ensonhaber-live.ercdn.net/trthaber/trthaber_1080p.m3u8
