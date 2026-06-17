@@ -13,7 +13,7 @@ https://ensonhaber-live.ercdn.net/haberglobal/haberglobal_720p.m3u8
 https://tv100-live.daioncdn.net/tv100/tv100.m3u8
 
 #EXTINF:-1 tvg-name="SÖZCÜ TV" tvg-id="SÖZCÜ.TV.tr" tvg-logo="https://i.ibb.co/B40rjP3/szc1.png" group-title="Haber",Sözcü TV
-https://nord.ayakkabiparti.lol/sozcutv/index.m3u8?token=NKGgOqJbNwMAFwbpkdblag&tms=1779632504
+https://diyanetcocuk.testworkery0.workers.dev/?ch=sozcu
 
 #EXTINF:-1 tvg-name="HALK TV" tvg-id="HALK.TV.tr" tvg-logo="https://i.ibb.co/BtYMK4q/halk21a.png" group-title="Haber",Halk TV
 https://halktv-live.daioncdn.net/halktv/halktv_1080p.m3u8
@@ -22,7 +22,7 @@ https://halktv-live.daioncdn.net/halktv/halktv_1080p.m3u8
 https://live.artidijitalmedya.com/artidijital_mavikaradeniz/mavikaradeniz/chunks.m3u8
 
 #EXTINF:-1 tvg-name="CNN TURK" tvg-id="CNN.TÜRK.HD.tr" tvg-logo="https://i.ibb.co/bFsmkwJ/cnn-turk.png" group-title="Haber",CNN TURK
-http://eb4b8dcf.kablakaka.ru/iptv/PXXFGKYYT6PCZA/6926/index.m3u8
+https://diyanetcocuk.testworkery0.workers.dev/?ch=cnnturk
 
 #EXTINF:-1 tvg-name="TRT HABER" tvg-id="TRT.HABER.HD.tr" tvg-logo="https://i.ibb.co/Bt6frts/trthaber.png" group-title="Haber",TRT HABER
 https://ensonhaber-live.ercdn.net/trthaber/trthaber_1080p.m3u8
