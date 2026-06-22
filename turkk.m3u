@@ -73,7 +73,7 @@ https://tv-trt1.medya.trt.com.tr/master.m3u8
 https://tv-trt2.medya.trt.com.tr/master.m3u8
 
 #EXTINF:-1 tvg-name="TBMM TV" tvg-id="TBMM TV.HD.tr" tvg-logo="https://i.imgur.com/62H0FNS.png" group-title="Genel",TBMM TV
-https://meclistv-live.ercdn.net/meclistv/meclistv.m3u
+https://meclistv-live.ercdn.net/meclistv/meclistv.m3u8
 
 #EXTINF:-1 tvg-name="TLC" tvg-id="TLC.tr" tvg-logo="https://i.ibb.co/Z1vHy41/tlc.png" group-title="Genel",TLC
 http://dygvideo.dygdigital.com/live/hls/tlctvdai?m3u8
