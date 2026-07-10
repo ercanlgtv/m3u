@@ -10,7 +10,7 @@ https://dogus.daioncdn.net/ntv/ntv.m3u8?app=ntv_web
 https://ensonhaber-live.ercdn.net/haberglobal/haberglobal_720p.m3u8
 
 #EXTINF:-1 tvg-name="TV 100" tvg-id="TV100.tr" tvg-logo="https://i.ibb.co/bLpTdYZ/tv100.png" group-title="Haber",TV 100
-https://tv100-live.daioncdn.net/tv100/tv100.m3u8
+https://ensonhaber-live.ercdn.net/tv100/tv100.m3u8
 
 #EXTINF:-1 tvg-name="SÖZCÜ TV" tvg-id="SÖZCÜ.TV.tr" tvg-logo="https://i.ibb.co/B40rjP3/szc1.png" group-title="Haber",Sözcü TV
 http://5.178.103.239:55/yt1/szctv.m3u8
