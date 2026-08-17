@@ -1,0 +1,198 @@
+!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>FilmEkseni Home</title>
+
+<style>
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        padding: 24px;
+        font-family: Arial, sans-serif;
+        color: white;
+        background: #111;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin: 0 0 25px;
+    }
+
+    h2 {
+        font-size: 21px;
+        margin: 28px 0 14px;
+    }
+
+    .row {
+        display: flex;
+        overflow-x: auto;
+        padding: 5px;
+    }
+
+    .card {
+        width: 160px;
+        min-width: 160px;
+        margin-right: 15px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .card img {
+        width: 160px;
+        height: 235px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .card .title {
+        margin-top: 7px;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card:focus {
+        transform: scale(1.08);
+    }
+
+    .card:focus img {
+        outline: 4px solid white;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🎬 FilmEkseni</h1>
+
+<h2>Son Eklenen Filmler</h2>
+<div class="row" id="latest"></div>
+
+<h2>Popüler Filmler</h2>
+<div class="row" id="popular"></div>
+
+<h2>Bilim Kurgu</h2>
+<div class="row" id="scifi"></div>
+
+<script>
+
+/*
+ * Şimdilik örnek katalog.
+ * Sonraki aşamada FilmEkseni veya TMDB'den otomatik dolduracağız.
+ */
+
+var latest = [
+    {
+        title: "Dune: Part Two",
+        pic: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg"
+    },
+    {
+        title: "Civil War",
+        pic: "https://image.tmdb.org/t/p/w500/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg"
+    },
+    {
+        title: "The Fall Guy",
+        pic: "https://image.tmdb.org/t/p/w500/tSz1qsmSJon0rqjHBxXZmrotuse.jpg"
+    }
+];
+
+var popular = [
+    {
+        title: "Oppenheimer",
+        pic: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
+    },
+    {
+        title: "Interstellar",
+        pic: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
+    }
+];
+
+var scifi = [
+    {
+        title: "Interstellar",
+        pic: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
+    },
+    {
+        title: "Dune",
+        pic: "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"
+    }
+];
+
+
+function addCards(containerId, items) {
+
+    var container = document.getElementById(containerId);
+
+    for (var i = 0; i < items.length; i++) {
+
+        (function(item) {
+
+            var card = document.createElement("div");
+
+            card.className = "card";
+            card.tabIndex = 0;
+
+            var img = document.createElement("img");
+            img.src = item.pic;
+
+            var title = document.createElement("div");
+            title.className = "title";
+            title.innerText = item.title;
+
+            card.appendChild(img);
+            card.appendChild(title);
+
+            card.onclick = function() {
+                searchMovie(item);
+            };
+
+            card.onkeydown = function(e) {
+                if (e.keyCode === 13) {
+                    searchMovie(item);
+                }
+            };
+
+            container.appendChild(card);
+
+        })(items[i]);
+    }
+}
+
+
+function searchMovie(item) {
+
+    /*
+     * WebHTV içerisindeysek:
+     * App'ın kendi film aramasını aç.
+     */
+
+    if (window.fm && fm.search) {
+
+        fm.search(item.title, {
+            direct: true,
+            pic: item.pic
+        }).catch(function(err) {
+            console.log(err);
+        });
+
+    } else {
+
+        alert("Aranacak film: " + item.title);
+
+    }
+}
+
+
+addCards("latest", latest);
+addCards("popular", popular);
+addCards("scifi", scifi);
+
+</script>
+
+</body>
+</html>
