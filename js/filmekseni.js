@@ -2,85 +2,95 @@ var rule = {
     title: 'FilmEkseni',
     host: 'https://filmekseni.vip',
 
-    homeUrl: '/',
-
-    url: '/fyclass/page/fypage/',
-
-    searchUrl: '/?s=**',
+    searchUrl: '/search/?q=**',
 
     searchable: 2,
     quickSearch: 1,
     filterable: 0,
 
     headers: {
-        'User-Agent': 'MOBILE_UA'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0',
+        'Referer': 'https://filmekseni.vip/',
+        'Accept': 'application/json, */*'
     },
 
-    timeout: 5000,
-
     class_name: 'Filmler&Diziler',
-    class_url: 'filmler&diziler',
-
-    play_parse: true,
+    class_url: 'film&dizi',
 
     推荐: '',
 
-    一级: `js:
+    一级: '',
+
+    搜索: `js:
         let d = [];
 
         let html = request(input);
 
-        /*
-         * FilmEkseni film/dizi linkleri:
-         * /film-adi/
-         *
-         * Önce sayfadaki bütün linkleri alıyoruz.
-         */
-        let links = pdfa(html, 'a');
+        let json = {};
 
-        links.forEach(function(it) {
+        try {
+            json = JSON.parse(html);
+        } catch(e) {
+            setResult([]);
+            return;
+        }
+
+        let items = json.result || json.results || json || [];
+
+        if (!Array.isArray(items)) {
+            items = [];
+        }
+
+        items.forEach(function(it) {
             try {
-                let url = pd(it, 'a&&href');
-                let title = pdfh(it, 'a&&Text');
+                let title =
+                    it.title ||
+                    it.akatitle ||
+                    it.original_title ||
+                    '';
 
-                if (!url || !title) return;
+                let pic =
+                    it.posterUrl ||
+                    it.poster ||
+                    it.image ||
+                    '';
 
-                /*
-                 * Menü ve gereksiz linkleri ele.
-                 */
-                if (
-                    url.indexOf('filmekseni.vip') < 0 &&
-                    url.indexOf('/') !== 0
-                ) return;
+                let url =
+                    it.href ||
+                    it.link ||
+                    '';
 
-                let bad = [
-                    'Anasayfa',
-                    'Keşfet',
-                    'Filmler',
-                    'Diziler',
-                    'İletişim',
-                    'Tümünü Gör'
-                ];
+                if (!url && it.slug) {
+                    let prefix =
+                        it.slug_prefix ||
+                        (it.type && String(it.type).toLowerCase().includes('dizi')
+                            ? 'dizi'
+                            : 'film');
 
-                if (bad.indexOf(title.trim()) >= 0) return;
+                    url =
+                        'https://filmekseni.vip/' +
+                        prefix +
+                        '/' +
+                        it.slug;
+                }
 
-                /*
-                 * Poster bulmaya çalış.
-                 */
-                let pic = '';
+                if (url && !url.startsWith('http')) {
+                    url = 'https://filmekseni.vip' + url;
+                }
 
-                try {
-                    pic = pd(it, 'img&&data-src');
-                    if (!pic) pic = pd(it, 'img&&src');
-                } catch(e) {}
+                if (pic && pic.startsWith('//')) {
+                    pic = 'https:' + pic;
+                }
 
-                /*
-                 * Poster varsa bunu içerik kabul et.
-                 */
-                if (pic) {
+                if (pic && pic.startsWith('/')) {
+                    pic = 'https://filmekseni.vip' + pic;
+                }
+
+                if (title && url) {
                     d.push({
-                        title: title.trim(),
+                        title: title,
                         pic_url: pic,
+                        desc: it.year || '',
                         url: url
                     });
                 }
@@ -88,20 +98,7 @@ var rule = {
             } catch(e) {}
         });
 
-        /*
-         * Aynı filmi birden fazla kez bulursa temizle.
-         */
-        let seen = {};
-        let out = [];
-
-        d.forEach(function(it) {
-            if (!seen[it.url]) {
-                seen[it.url] = true;
-                out.push(it);
-            }
-        });
-
-        setResult(out);
+        setResult(d);
     `,
 
     二级: `js:
@@ -118,82 +115,106 @@ var rule = {
             vod_actor: '',
             vod_director: '',
             vod_content: '',
-            vod_play_from: '',
+            vod_play_from: 'FilmEkseni',
             vod_play_url: ''
         };
 
         try {
-            VOD.vod_name = pdfh(html, 'h1&&Text');
+            VOD.vod_name =
+                pdfh(html, 'h1&&Text') ||
+                pdfh(html, 'title&&Text');
         } catch(e) {}
 
         try {
-            VOD.vod_pic = pd(html, 'img&&src');
+            VOD.vod_pic =
+                pd(html, '.poster img&&src') ||
+                pd(html, '.poster img&&data-src') ||
+                pd(html, 'meta[property="og:image"]&&content') ||
+                pd(html, 'img&&src');
         } catch(e) {}
 
         try {
             VOD.vod_content =
                 pdfh(html, '.description&&Text') ||
+                pdfh(html, '.content&&Text') ||
                 pdfh(html, 'article&&Text');
         } catch(e) {}
 
-        /*
-         * İlk aşamada detay ekranının
-         * düzgün gelip gelmediğini test ediyoruz.
-         */
+        let iframe = '';
 
-        VOD.vod_play_from = 'FilmEkseni';
+        try {
+            iframe =
+                pd(html, 'div.card-video iframe&&src') ||
+                pd(html, '.player-container iframe&&src') ||
+                pd(html, 'iframe&&src');
+        } catch(e) {}
 
-        /*
-         * Şimdilik gerçek stream çözmüyoruz.
-         * Detay ekranı çalışınca bunu ekleyeceğiz.
-         */
-        VOD.vod_play_url = 'Web Sayfası$' + input;
+        if (iframe) {
+            if (iframe.startsWith('//')) {
+                iframe = 'https:' + iframe;
+            }
+
+            if (iframe.startsWith('/')) {
+                iframe = 'https://filmekseni.vip' + iframe;
+            }
+
+            VOD.vod_play_url =
+                'FilmEkseni$' + iframe;
+        }
     `,
 
-    搜索: `js:
-        let d = [];
+    lazy: `js:
+        let playerUrl = input;
 
-        let html = request(input);
-
-        let links = pdfa(html, 'a');
-
-        links.forEach(function(it) {
-            try {
-                let url = pd(it, 'a&&href');
-                let title = pdfh(it, 'a&&Text');
-
-                if (!url || !title) return;
-
-                let pic = '';
-
-                try {
-                    pic = pd(it, 'img&&data-src');
-                    if (!pic) pic = pd(it, 'img&&src');
-                } catch(e) {}
-
-                if (pic) {
-                    d.push({
-                        title: title.trim(),
-                        pic_url: pic,
-                        url: url
-                    });
-                }
-
-            } catch(e) {}
-        });
-
-        let seen = {};
-        let out = [];
-
-        d.forEach(function(it) {
-            if (!seen[it.url]) {
-                seen[it.url] = true;
-                out.push(it);
+        let html = request(playerUrl, {
+            headers: {
+                'Referer': 'https://filmekseni.vip/',
+                'User-Agent': 'Mozilla/5.0'
             }
         });
 
-        setResult(out);
-    `,
+        let m =
+            html.match(/file\\s*:\\s*["']([^"']+\\.m3u8[^"']*)["']/i) ||
+            html.match(/file\\s*:\\s*["']([^"']+\\.mp4[^"']*)["']/i);
 
-    lazy: ''
+        if (m && m[1]) {
+
+            input = {
+                parse: 0,
+                jx: 0,
+                url: m[1],
+                header: {
+                    'Referer': playerUrl,
+                    'User-Agent': 'Mozilla/5.0'
+                }
+            };
+
+        } else {
+
+            let m2 =
+                html.match(/https?:\\/\\/[^"'\\s<>]+\\.m3u8[^"'\\s<>]*/i) ||
+                html.match(/https?:\\/\\/[^"'\\s<>]+\\.mp4[^"'\\s<>]*/i);
+
+            if (m2 && m2[0]) {
+
+                input = {
+                    parse: 0,
+                    jx: 0,
+                    url: m2[0],
+                    header: {
+                        'Referer': playerUrl,
+                        'User-Agent': 'Mozilla/5.0'
+                    }
+                };
+
+            } else {
+
+                input = {
+                    parse: 1,
+                    jx: 1,
+                    url: playerUrl
+                };
+            }
+        }
+    `
 };
