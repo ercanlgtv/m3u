@@ -1,0 +1,19 @@
+{
+  "sites": [
+    {
+      "key": "filmekseni",
+      "name": "🇹🇷 FilmEkseni",
+      "type": 3,
+      "api": "https://ercanlgtv.github.io/m3u/filmekseni.js",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "filterable": 1
+    }
+  ],
+  "parses": [],
+  "lives": [],
+  "flags": [],
+  "rules": [],
+  "doh": []
+}
