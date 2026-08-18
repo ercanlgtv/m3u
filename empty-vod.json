@@ -1,5 +1,14 @@
 {
-  "sites": [],
-  "parses": [],
-  "lives": []
+  "sites": [
+    {
+      "key": "Empty",
+      "name": "Boş",
+      "type": 3,
+      "api": "csp_Nostr",
+      "searchable": 0,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0
+    }
+  ]
 }
