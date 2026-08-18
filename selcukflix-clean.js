@@ -2,197 +2,147 @@
     "use strict";
 
     const BAD_WORDS = [
-        "casino",
-        "bet",
-        "bahis",
-        "bonus",
-        "slot",
-        "grandpasha",
-        "palazzo",
-        "betnano",
-        "bettilt",
-        "betgar",
-        "betwinner",
-        "1xbet",
-        "bets10"
+        "casino", "bahis", "bonus", "slot", "bet",
+        "axwin", "dedebet", "grandpasha", "palazzo",
+        "bets10", "1xbet", "betnano", "bettilt",
+        "betwinner", "betgar", "kaçak bahis"
     ];
 
-    const BAD_SELECTORS = [
-        ".ads",
-        ".ad",
-        ".advert",
-        ".advertisement",
-        ".ad-container",
-        ".ad-wrapper",
-        ".popup",
-        ".pop-up",
-        ".overlay",
-        ".modal-backdrop",
-        "[class*='advert']",
-        "[id*='advert']",
-        "[class*='casino']",
-        "[id*='casino']",
-        "[class*='bet-']",
-        "[id*='bet-']",
-        "[class*='popup']",
-        "[id*='popup']"
-    ];
-
-    function containsBadWord(text) {
+    function bad(text) {
         if (!text) return false;
-
         text = String(text).toLowerCase();
-
-        return BAD_WORDS.some(function (word) {
-            return text.indexOf(word) !== -1;
-        });
+        return BAD_WORDS.some(w => text.includes(w));
     }
 
-    function removeKnownAds() {
-        BAD_SELECTORS.forEach(function (selector) {
-            try {
-                document.querySelectorAll(selector).forEach(function (el) {
-                    el.remove();
-                });
-            } catch (e) {}
-        });
-    }
+    function removeAdElement(el) {
+        if (!el || el === document.body || el === document.documentElement)
+            return;
 
-    function inspectElement(el) {
-        if (!el || !el.tagName) return;
+        let target = el;
 
-        const tag = el.tagName.toLowerCase();
+        // Reklam resminin içinde bulunduğu banner kutusunu da kaldır
+        for (let i = 0; i < 3; i++) {
+            if (!target.parentElement) break;
 
-        const src =
-            el.src ||
-            el.getAttribute("src") ||
-            "";
+            const parent = target.parentElement;
+            const r = parent.getBoundingClientRect();
 
-        const href =
-            el.href ||
-            el.getAttribute("href") ||
-            "";
-
-        const cls =
-            typeof el.className === "string"
-                ? el.className
-                : "";
-
-        const id = el.id || "";
-
-        const title =
-            el.getAttribute("title") ||
-            el.getAttribute("aria-label") ||
-            "";
-
-        const combined =
-            src + " " +
-            href + " " +
-            cls + " " +
-            id + " " +
-            title;
-
-        if (containsBadWord(combined)) {
-            /*
-             * Script/link/img/iframe doğrudan reklam domainine
-             * gidiyorsa kaldır.
-             */
+            // Büyük banner/reklam kapsayıcısını seç
             if (
-                tag === "iframe" ||
-                tag === "img" ||
-                tag === "script" ||
-                tag === "a"
+                r.width > 250 &&
+                r.height > 40 &&
+                r.height < 700
             ) {
-                el.remove();
-                return;
+                target = parent;
+            } else {
+                break;
             }
-
-            /*
-             * Büyük sabit reklam bloklarını kaldır.
-             */
-            try {
-                const style = getComputedStyle(el);
-                const rect = el.getBoundingClientRect();
-
-                if (
-                    style.position === "fixed" ||
-                    style.position === "sticky" ||
-                    rect.width > 250 ||
-                    rect.height > 120
-                ) {
-                    el.remove();
-                }
-            } catch (e) {}
         }
+
+        target.remove();
     }
 
-    function cleanPage() {
-        removeKnownAds();
+    function scan() {
 
-        document
-            .querySelectorAll(
-                "iframe,img,a,script,aside,section,div"
-            )
-            .forEach(inspectElement);
+        document.querySelectorAll(
+            "img,a,iframe,div,section,aside,span,script"
+        ).forEach(el => {
+
+            let info = "";
+
+            try {
+                info += " " + (el.src || "");
+                info += " " + (el.href || "");
+                info += " " + (el.alt || "");
+                info += " " + (el.title || "");
+                info += " " + (el.id || "");
+
+                if (typeof el.className === "string")
+                    info += " " + el.className;
+
+                // background-image URL
+                const style = getComputedStyle(el);
+
+                if (style.backgroundImage)
+                    info += " " + style.backgroundImage;
+
+                // Sadece küçük miktarda görünür metne bak
+                if (
+                    el.tagName === "A" ||
+                    el.tagName === "SPAN"
+                ) {
+                    info += " " + (el.innerText || "");
+                }
+
+            } catch (e) {}
+
+            if (bad(info)) {
+                removeAdElement(el);
+            }
+        });
+
 
         /*
-         * Reklam kaldırılınca body üzerinde kalan
-         * scroll kilidini aç.
+         * Genel reklam / popup sınıfları
          */
+
+        const selectors = [
+            "[class*='advert']",
+            "[id*='advert']",
+            "[class*='banner-ad']",
+            "[id*='banner-ad']",
+            "[class*='popup-ad']",
+            "[id*='popup-ad']",
+            "[class*='casino']",
+            "[id*='casino']",
+            "[class*='bet-banner']",
+            "[id*='bet-banner']"
+        ];
+
+        selectors.forEach(selector => {
+            try {
+                document.querySelectorAll(selector)
+                    .forEach(el => el.remove());
+            } catch (e) {}
+        });
+
+
+        /*
+         * Popup kaldırıldıktan sonra sayfanın
+         * kilitli kalmasını önle.
+         */
+
         try {
             document.documentElement.style.overflow = "auto";
             document.body.style.overflow = "auto";
         } catch (e) {}
     }
 
-    /*
-     * İlk yükleme.
-     */
-    cleanPage();
 
-    /*
-     * Sonradan açılan popup/reklamları izle.
-     */
-    const observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            mutation.addedNodes.forEach(function (node) {
-                if (node.nodeType === 1) {
-                    inspectElement(node);
+    // İlk yüklemede
+    scan();
 
-                    if (node.querySelectorAll) {
-                        node
-                            .querySelectorAll(
-                                "iframe,img,a,script,aside,section,div"
-                            )
-                            .forEach(inspectElement);
-                    }
-                }
-            });
-        });
 
-        removeKnownAds();
-    });
+    // Dinamik reklamlar
+    const observer = new MutationObserver(() => scan());
 
     observer.observe(document.documentElement, {
         childList: true,
         subtree: true
     });
 
-    /*
-     * Bazı reklamlar gecikmeli geldiği için
-     * ilk 30 saniye periyodik temizlik.
-     */
-    let count = 0;
 
-    const timer = setInterval(function () {
-        cleanPage();
+    // Gecikmeli reklamlar
+    let n = 0;
 
-        count++;
+    const timer = setInterval(() => {
+        scan();
 
-        if (count >= 30) {
+        if (++n >= 60)
             clearInterval(timer);
-        }
+
     }, 1000);
 
-    console.log("[WebHTV] SelcukFlix Clean extension active");
+
+    console.log("WebHTV SelcukFlix Ad Cleaner v2 aktif");
 })();
