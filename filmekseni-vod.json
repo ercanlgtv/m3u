@@ -1,19 +1,17 @@
 {
   "sites": [
     {
-      "key": "filmekseni",
+      "key": "drpy_js_filmekseni",
       "name": "🇹🇷 FilmEkseni",
       "type": 3,
-      "api": "https://ercanlgtv.github.io/m3u/filmekseni.js",
+      "api": "https://ercanlgtv.github.io/m3u/lib/drpy2.min.js",
+      "ext": "https://ercanlgtv.github.io/m3u/js/filmekseni.js",
       "searchable": 1,
       "quickSearch": 1,
-      "changeable": 0,
-      "filterable": 1
+      "filterable": 1,
+      "changeable": 1
     }
   ],
   "parses": [],
-  "lives": [],
-  "flags": [],
-  "rules": [],
-  "doh": []
+  "lives": []
 }
