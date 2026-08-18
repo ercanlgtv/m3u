@@ -3,8 +3,7 @@ var rule = {
     host: 'https://filmekseni.vip',
 
     homeUrl: '/',
-    url: '/filmler?page=fypage',
-    searchUrl: '/arama?q=**',
+    searchUrl: '/?s=**',
 
     searchable: 2,
     quickSearch: 0,
@@ -15,16 +14,32 @@ var rule = {
     },
 
     class_name: 'Filmler&Diziler&Aksiyon&Bilim Kurgu&Gerilim&Komedi&Korku&Suç',
-
     class_url: 'filmler&diziler&aksiyon&bilim-kurgu&gerilim&komedi&korku&suc',
 
-    推荐: '*',
+    /*
+     * Ana sayfadaki film kartları
+     */
+    推荐: '.movie-item;a&&title;img&&data-src;a&&href',
 
-    一级: '*',
+    /*
+     * Kategori sayfalarındaki kartlar
+     */
+    一级: '.movie-item;a&&title;img&&data-src;a&&href',
 
-    二级: '*',
+    /*
+     * Film detay sayfası
+     */
+    二级: {
+        title: 'h1&&Text',
+        img: '.poster img&&src',
+        desc: '.description&&Text',
+        content: '.description&&Text'
+    },
 
-    搜索: '*',
+    /*
+     * Arama sonuçları
+     */
+    搜索: '.movie-item;a&&title;img&&data-src;a&&href',
 
     lazy: ''
 };
