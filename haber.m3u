@@ -44,3 +44,6 @@ https://www.youtube.com/watch?v=Z5bqy4gwEmc
 
 #EXTINF:-1 tvg-name="AHABER" tvg-id="A.HABER.HD.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/7c/Ahaber_Logo.png"  ,A HABER
 https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/ahaber/ahaber_1080p.m3u8
+
+#EXTINF:-1 tvg-name="DENEME" tvg-id="A.HABER.HD.tr" tvg-logo=""  ,APERTURE
+https://www.youtube.com/watch?v=Rk5ciK9NReA
