@@ -1,17 +1,22 @@
 {
+  "spider": "https://github.com/FongMi/Release/raw/fongmi/jar/custom_spider.jar",
   "sites": [
     {
-      "key": "drpy_js_filmekseni",
-      "name": "🇹🇷 FilmEkseni",
+      "key": "filmekseni",
+      "name": "Film Ekseni",
       "type": 3,
-      "api": "https://ercanlgtv.github.io/m3u/lib/drpy2.min.js",
-      "ext": "https://ercanlgtv.github.io/m3u/js/filmekseni.js",
+      "api": "csp_Web",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "changeable": 1
+      "ext": "https://filmekseni.vip/"
     }
   ],
-  "parses": [],
-  "lives": []
+  "rules": [
+    {
+      "name": "sniff_rule",
+      "hosts": ["*"],
+      "regex": ["http((?!http).){12,}?\\.(m3u8|mp4|flv|avi|mkv|rmvb|wmv)[^\\?]*"]
+    }
+  ]
 }
