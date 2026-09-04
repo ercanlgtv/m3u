@@ -64,7 +64,7 @@ https://ciner.daioncdn.net/showtv/showtv.m3u8?ce=3&app=4bc856ef-4c68-4a94-bc87-3
 https://demiroren.daioncdn.net/kanald/kanald.m3u8?app=kanald_web
 
 #EXTINF:-1 tvg-name="ATV" tvg-id="ATV.HD.tr" tvg-logo="https://i.ibb.co/n1SCYqN/atv.png" group-title="Genel",ATV
-https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/atv/atv_720p.m3u8
+https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/atv/atv.m3u8
 
 #EXTINF:-1 tvg-name="STAR TV" tvg-id="STAR.TV.HD.tr" tvg-logo="https://i.ibb.co/DYyDzGV/star22tv.png" group-title="Genel",STAR TV
 https://dogus-yayin-gurubu.koprulu2.workers.dev/startv.m3u8
